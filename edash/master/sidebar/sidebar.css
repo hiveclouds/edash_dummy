@@ -1,0 +1,296 @@
+/* ============================================================
+   Master Sidebar Component — 360eDash
+   Self-contained: defines its own tokens so it can be dropped
+   into any page on its own. Values intentionally mirror
+   header.css so the two feel like one system.
+============================================================= */
+
+.edash-sidebar {
+  --sb-primary: #0f6a71;
+  --sb-primary-dark: #0b4f54;
+  --sb-primary-soft: #e4f1f1;
+  --sb-primary-soft-hover: #d5eaea;
+  --sb-danger: #d64545;
+  --sb-danger-soft: #fbe8e8;
+  --sb-ink: #25343F;
+  --sb-greeting-color: #FA891A;
+  --sb-muted: #7c8b8d;
+  --sb-border: #e7edee;
+  --sb-surface: #ffffff;
+  --sb-width: 264px;
+
+  font-family: 'Poppins', sans-serif;
+  width: var(--sb-width);
+  min-width: var(--sb-width);
+  height: 100vh;
+  background: var(--sb-surface);
+  border-right: 1px solid var(--sb-border);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-y: auto;
+  transition: width 0.25s ease, min-width 0.25s ease;
+}
+
+.edash-sidebar * {
+  box-sizing: border-box;
+}
+
+/* ---------- Custom scrollbar ---------- */
+.edash-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sb-primary-soft-hover) transparent;
+}
+.edash-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.edash-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.edash-sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--sb-primary-soft-hover);
+  border-radius: 999px;
+}
+.edash-sidebar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--sb-primary);
+}
+
+/* Collapsed state (toggled via JS adding .is-collapsed) */
+.edash-sidebar.is-collapsed {
+  --sb-width: 76px;
+}
+.edash-sidebar.is-collapsed .sb-brand-logo,
+.edash-sidebar.is-collapsed .sb-greeting,
+.edash-sidebar.is-collapsed .sb-btn span:not(.sb-badge),
+.edash-sidebar.is-collapsed .sb-nav-title,
+.edash-sidebar.is-collapsed .sb-nav-item span {
+  display: none;
+}
+.edash-sidebar.is-collapsed .sb-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+
+/* ---------- Branding ---------- */
+.sb-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 20px 18px;
+}
+
+.sb-brand-id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.sb-brand-logo {
+  height: 42px;
+  width: auto;
+  display: block;
+}
+
+.sb-toggle {
+  background: transparent;
+  border: none;
+  color: var(--sb-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: background 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+}
+.sb-toggle:hover {
+  background: var(--sb-primary-soft);
+  color: var(--sb-primary);
+}
+
+/* ---------- Greeting ---------- */
+.sb-greeting {
+  padding: 2px 20px 18px;
+  font-size: 19px;
+  color: var(--sb-greeting-color);
+  white-space: nowrap;
+}
+.sb-greeting-label {
+  font-weight: 400;
+  margin-right: 5px;
+}
+.sb-greeting-name {
+  font-weight: 700;
+}
+
+/* ---------- Quick actions ---------- */
+.sb-quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 16px 20px;
+}
+
+.sb-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  text-align: left;
+}
+
+.sb-btn i {
+  font-size: 14px;
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.sb-btn-primary {
+  background: var(--sb-primary);
+  border: 1px solid var(--sb-primary);
+  color: #fff;
+}
+.sb-btn-primary:hover {
+  background: var(--sb-primary-dark);
+  border-color: var(--sb-primary-dark);
+}
+
+.sb-btn-secondary {
+  background: var(--sb-surface);
+  border: 1px solid var(--sb-border);
+  color: var(--sb-ink);
+}
+.sb-btn-secondary:hover {
+  background: var(--sb-primary-soft);
+  border-color: var(--sb-primary-soft-hover);
+  color: var(--sb-primary-dark);
+}
+
+.sb-badge {
+  margin-left: auto;
+  background: var(--sb-danger);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 3px 6px;
+  border-radius: 999px;
+}
+
+/* ---------- Navigation ---------- */
+.sb-nav {
+  flex: 1;
+  padding: 4px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sb-nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sb-nav-group:not(:first-child) {
+  border-top: 1px solid var(--sb-border);
+  padding-top: 16px;
+}
+
+.sb-nav-title {
+  margin: 0 0 6px 10px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sb-muted);
+}
+
+.sb-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 10px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--sb-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sb-nav-item i {
+  width: 16px;
+  font-size: 14px;
+  text-align: center;
+  color: var(--sb-muted);
+  transition: color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.sb-nav-item:hover {
+  background: var(--sb-primary-soft);
+  color: var(--sb-primary-dark);
+}
+.sb-nav-item:hover i {
+  color: var(--sb-primary);
+}
+
+.sb-nav-item.is-active {
+  background: var(--sb-primary-soft);
+  color: var(--sb-primary-dark);
+  font-weight: 600;
+}
+.sb-nav-item.is-active i {
+  color: var(--sb-primary);
+}
+
+.sb-nav-item-danger:hover {
+  background: var(--sb-danger-soft);
+  color: var(--sb-danger);
+}
+.sb-nav-item-danger:hover i {
+  color: var(--sb-danger);
+}
+
+/* ---------- Footer group (Others) ---------- */
+.sb-nav-group.sb-nav-group-footer {
+  margin-top: auto;
+  border-top: none;
+  padding: 10px 8px;
+  background: var(--sb-primary-soft);
+  border-radius: 12px;
+}
+.sb-nav-group-footer .sb-nav-title {
+  margin-left: 6px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .edash-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 40;
+    transform: translateX(-100%);
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+  }
+  .edash-sidebar.is-open {
+    transform: translateX(0);
+    box-shadow: 8px 0 24px rgba(15, 106, 113, 0.12);
+  }
+}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>360eDash — Dashboard</title>
+
+<!-- Google Fonts: Poppins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome 6 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- Master components (modular, reusable) -->
+<link rel="stylesheet" href="master/sidebar/sidebar.css">
+<link rel="stylesheet" href="master/header/header.css">
+
+<style>
+  :root {
+    --page-bg: #f4f7f7;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--page-bg);
+    color: #25343F;
+  }
+
+  .edash-layout {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .edash-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .edash-content {
+    flex: 1;
+    padding: 24px;
+  }
+
+  /* Simple placeholder "map" panel so the demo page resembles the
+     wireframe reference without pulling in a real map library */
+  .demo-map-card {
+    position: relative;
+    height: calc(100vh - 96px);
+    border-radius: 16px;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(15,106,113,0.06), transparent 40%),
+      radial-gradient(circle at 70% 60%, rgba(15,106,113,0.05), transparent 45%),
+      #ffffff;
+    border: 1px solid #e7edee;
+    overflow: hidden;
+  }
+  .demo-map-card::after {
+    content: "Peta proyek akan tampil di sini";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b6c2c3;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  #sidebar-root:empty,
+  #header-root:empty {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="edash-layout">
+
+  <!-- Sidebar mount point -->
+  <div id="sidebar-root"></div>
+
+  <div class="edash-main">
+    <!-- Header mount point -->
+    <div id="header-root"></div>
+
+    <main class="edash-content">
+      <div class="demo-map-card"></div>
+    </main>
+  </div>
+
+</div>
+
+<script>
+
+  async function loadComponent(url, mountSelector) {
+    const res = await fetch(url);
+    const html = await res.text();
+    document.querySelector(mountSelector).innerHTML = html;
+  }
+
+  Promise.all([
+    loadComponent('master/sidebar/sidebar.html', '#sidebar-root'),
+    loadComponent('master/header/header.html', '#header-root'),
+  ]).then(() => {
+    // Sidebar collapse toggle
+    const sidebar = document.getElementById('edashSidebar');
+    const toggleBtn = document.getElementById('sbToggle');
+    if (toggleBtn && sidebar) {
+      toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('is-collapsed');
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

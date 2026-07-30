@@ -1,0 +1,32 @@
+<!-- ============================================================
+  Master Header Component — 360eDash
+  Usage: include this markup inside a container with id="header-root",
+  and load header.css. See /index.html for a working example.
+============================================================= -->
+<header class="edash-header">
+
+  <!-- Left: reserved for page title / breadcrumb, set per page -->
+  <div class="hd-left"></div>
+
+  <!-- Right: notifications + profile -->
+  <div class="hd-right">
+
+    <button class="hd-notif" id="hdNotif" type="button" aria-label="Notifications">
+      <i class="fa-regular fa-bell"></i>
+      <span class="hd-notif-badge">3</span>
+    </button>
+
+    <button class="hd-profile" id="hdProfile" type="button">
+      <span class="hd-avatar">
+        <i class="fa-solid fa-circle-user"></i>
+      </span>
+      <span class="hd-profile-info">
+        <span class="hd-profile-name">admin.user</span>
+        <span class="hd-profile-role">Admin</span>
+      </span>
+      <i class="fa-solid fa-chevron-down hd-caret"></i>
+    </button>
+
+  </div>
+
+</header>
