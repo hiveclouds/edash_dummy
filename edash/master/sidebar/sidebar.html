@@ -3,7 +3,7 @@
 ============================================================= -->
 <aside class="edash-sidebar" id="edashSidebar">
 
-  <!-- Branding -->
+  <!-- Branding (sticky, stays visible while nav scrolls) -->
   <div class="sb-brand">
     <div class="sb-brand-id">
       <img class="sb-brand-logo" src="assets/logo.png" alt="360eDash">
@@ -13,83 +13,91 @@
     </button>
   </div>
 
-  <!-- Greeting -->
-  <div class="sb-greeting">
-    <span class="sb-greeting-label">Halo,</span>
-    <span class="sb-greeting-name">John!</span>
-  </div>
+  <!-- Scrollable body: greeting, quick actions, nav groups (except footer) -->
+  <div class="sb-scroll">
 
-  <!-- Quick actions -->
-  <div class="sb-quick-actions">
-    <button class="sb-btn sb-btn-secondary" type="button">
-      <i class="fa-solid fa-location-dot"></i>
-      <span>Project Selector</span>
-    </button>
-    <button class="sb-btn sb-btn-secondary" type="button">
-      <i class="fa-solid fa-circle-plus"></i>
-      <span>Add New Project</span>
-    </button>
-    <button class="sb-btn sb-btn-secondary" type="button">
-      <i class="fa-regular fa-bell"></i>
-      <span>Alerts</span>
-    </button>
-  </div>
-
-  <!-- Navigation -->
-  <nav class="sb-nav">
-
-    <div class="sb-nav-group">
-      <p class="sb-nav-title">Monitoring</p>
-      <a class="sb-nav-item is-active" href="#">
-        <i class="fa-solid fa-table-cells-large"></i>
-        <span>Project Overview</span>
-      </a>
-      <a class="sb-nav-item" href="#">
-        <i class="fa-solid fa-server"></i>
-        <span>System Information</span>
-      </a>
+    <!-- Greeting -->
+    <div class="sb-greeting">
+      <span class="sb-greeting-label" data-i18n="sidebar.greeting.label">Halo,</span>
+      <span class="sb-greeting-name">John!</span>
     </div>
 
-    <div class="sb-nav-group">
-      <p class="sb-nav-title">Tools</p>
-      <a class="sb-nav-item" href="#">
-        <i class="fa-solid fa-solar-panel"></i>
-        <span>Solar Calculator</span>
-      </a>
-      <a class="sb-nav-item" href="#">
-        <i class="fa-solid fa-calculator"></i>
-        <span>Admin Calculator</span>
-      </a>
+    <!-- Quick actions -->
+    <div class="sb-quick-actions">
+      <button class="sb-btn sb-btn-primary is-active" type="button" id="sbDashboardBtn">
+        <i class="fa-solid fa-house"></i>
+        <span data-i18n="sidebar.dashboard">Dashboard</span>
+      </button>
     </div>
 
-    <div class="sb-nav-group">
-      <p class="sb-nav-title">Admin</p>
-      <a class="sb-nav-item" href="#">
-        <i class="fa-solid fa-user-shield"></i>
-        <span>Admin View</span>
-      </a>
-      <a class="sb-nav-item" href="#">
-        <i class="fa-solid fa-bullhorn"></i>
-        <span>Marketing</span>
-      </a>
-      <a class="sb-nav-item" href="#">
-        <i class="fa-solid fa-clipboard-list"></i>
-        <span>Entry</span>
-      </a>
-    </div>
+    <div class="sb-divider"></div>
 
+    <!-- Navigation -->
+    <nav class="sb-nav">
+
+      <div class="sb-nav-group">
+        <p class="sb-nav-title" data-i18n="sidebar.nav.monitoring">Monitoring</p>
+        <a class="sb-nav-item" href="#" data-page="pages/project-selector.html">
+          <span class="sb-nav-icon"><i class="fa-solid fa-map-location-dot"></i></span>
+          <span class="sb-nav-label" data-i18n="sidebar.nav.projectSelector">Project Selector</span>
+        </a>
+        <a class="sb-nav-item" href="#" data-page="pages/project-overview.html">
+          <span class="sb-nav-icon"><i class="fa-solid fa-table-cells-large"></i></span>
+          <span class="sb-nav-label" data-i18n="sidebar.nav.projectOverview">Project Overview</span>
+        </a>
+        <a class="sb-nav-item" href="#">
+          <span class="sb-nav-icon"><i class="fa-solid fa-server"></i></span>
+          <span class="sb-nav-label" data-i18n="sidebar.nav.systemInfo">System Information</span>
+        </a>
+      </div>
+
+      <div class="sb-nav-group">
+        <p class="sb-nav-title" data-i18n="sidebar.nav.tools">Tools</p>
+        <a class="sb-nav-item" href="#">
+          <span class="sb-nav-icon"><i class="fa-solid fa-solar-panel"></i></span>
+          <span class="sb-nav-label" data-i18n="sidebar.nav.solarCalc">Solar Calculator</span>
+        </a>
+        <a class="sb-nav-item" href="#">
+          <span class="sb-nav-icon"><i class="fa-solid fa-calculator"></i></span>
+          <span class="sb-nav-label" data-i18n="sidebar.nav.adminCalc">Admin Calculator</span>
+        </a>
+        <a class="sb-nav-item" href="#">
+          <span class="sb-nav-icon"><i class="fa-solid fa-circle-plus"></i></span>
+          <span class="sb-nav-label" data-i18n="sidebar.nav.addProject">Add New Project</span>
+        </a>
+      </div>
+
+      <div class="sb-nav-group">
+        <p class="sb-nav-title" data-i18n="sidebar.nav.admin">Admin</p>
+        <a class="sb-nav-item" href="#">
+          <span class="sb-nav-icon"><i class="fa-solid fa-user-shield"></i></span>
+          <span class="sb-nav-label" data-i18n="sidebar.nav.adminView">Admin View</span>
+        </a>
+        <a class="sb-nav-item" href="#">
+          <span class="sb-nav-icon"><i class="fa-solid fa-bullhorn"></i></span>
+          <span class="sb-nav-label" data-i18n="sidebar.nav.marketing">Marketing</span>
+        </a>
+        <a class="sb-nav-item" href="#">
+          <span class="sb-nav-icon"><i class="fa-solid fa-clipboard-list"></i></span>
+          <span class="sb-nav-label" data-i18n="sidebar.nav.entry">Entry</span>
+        </a>
+      </div>
+
+    </nav>
+
+    <!-- Others: scrolls along with the rest of the nav -->
     <div class="sb-nav-group sb-nav-group-footer">
-      <p class="sb-nav-title">Others</p>
+      <p class="sb-nav-title" data-i18n="sidebar.nav.others">Others</p>
       <a class="sb-nav-item" href="#">
-        <i class="fa-solid fa-gear"></i>
-        <span>Setting</span>
+        <span class="sb-nav-icon"><i class="fa-solid fa-gear"></i></span>
+        <span class="sb-nav-label" data-i18n="sidebar.nav.setting">Setting</span>
       </a>
       <a class="sb-nav-item sb-nav-item-danger" href="#">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        <span>Logout</span>
+        <span class="sb-nav-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+        <span class="sb-nav-label" data-i18n="sidebar.nav.logout">Logout</span>
       </a>
     </div>
 
-  </nav>
+  </div>
 
 </aside>

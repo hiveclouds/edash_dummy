@@ -1,15 +1,15 @@
 /* ============================================================
    Master Sidebar Component — 360eDash
-   Self-contained: defines its own tokens so it can be dropped
-   into any page on its own. Values intentionally mirror
-   header.css so the two feel like one system.
 ============================================================= */
 
 .edash-sidebar {
   --sb-primary: #0f6a71;
   --sb-primary-dark: #0b4f54;
+  --sb-primary-light: #6DC3BB;
+  --sb-primary-gradient: linear-gradient(90deg, var(--sb-primary), var(--sb-primary-light));
   --sb-primary-soft: #e4f1f1;
   --sb-primary-soft-hover: #d5eaea;
+  --sb-accent: #FA891A;
   --sb-danger: #d64545;
   --sb-danger-soft: #fbe8e8;
   --sb-ink: #25343F;
@@ -17,42 +17,24 @@
   --sb-muted: #7c8b8d;
   --sb-border: #e7edee;
   --sb-surface: #ffffff;
+  --sb-footer-bg: #6DC3BB;
   --sb-width: 264px;
 
   font-family: 'Poppins', sans-serif;
   width: var(--sb-width);
   min-width: var(--sb-width);
   height: 100vh;
+  overflow: hidden;
   background: var(--sb-surface);
   border-right: 1px solid var(--sb-border);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  overflow-y: auto;
   transition: width 0.25s ease, min-width 0.25s ease;
 }
 
 .edash-sidebar * {
   box-sizing: border-box;
-}
-
-/* ---------- Custom scrollbar ---------- */
-.edash-sidebar {
-  scrollbar-width: thin;
-  scrollbar-color: var(--sb-primary-soft-hover) transparent;
-}
-.edash-sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-.edash-sidebar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.edash-sidebar::-webkit-scrollbar-thumb {
-  background-color: var(--sb-primary-soft-hover);
-  border-radius: 999px;
-}
-.edash-sidebar::-webkit-scrollbar-thumb:hover {
-  background-color: var(--sb-primary);
 }
 
 /* Collapsed state (toggled via JS adding .is-collapsed) */
@@ -63,8 +45,11 @@
 .edash-sidebar.is-collapsed .sb-greeting,
 .edash-sidebar.is-collapsed .sb-btn span:not(.sb-badge),
 .edash-sidebar.is-collapsed .sb-nav-title,
-.edash-sidebar.is-collapsed .sb-nav-item span {
+.edash-sidebar.is-collapsed .sb-nav-item .sb-nav-label {
   display: none;
+}
+.edash-sidebar.is-collapsed .sb-nav-item {
+  justify-content: center;
 }
 .edash-sidebar.is-collapsed .sb-badge {
   position: absolute;
@@ -74,10 +59,37 @@
 
 /* ---------- Branding ---------- */
 .sb-brand {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 22px 20px 18px;
+  background: var(--sb-surface);
+}
+
+/* ---------- Scrollable middle section ----------
+   Only this part scrolls; brand stays fixed on top,
+   footer group stays pinned at the bottom. */
+.sb-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sb-primary-soft-hover) transparent;
+}
+.sb-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.sb-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sb-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--sb-primary-soft-hover);
+  border-radius: 999px;
+}
+.sb-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: var(--sb-primary);
 }
 
 .sb-brand-id {
@@ -160,13 +172,17 @@
 }
 
 .sb-btn-primary {
-  background: var(--sb-primary);
-  border: 1px solid var(--sb-primary);
-  color: #fff;
+  background: var(--sb-surface);
+  border: 1px solid var(--sb-border);
+  color: var(--sb-ink);
+}
+.sb-btn-primary i {
+  color: var(--sb-primary);
 }
 .sb-btn-primary:hover {
-  background: var(--sb-primary-dark);
-  border-color: var(--sb-primary-dark);
+  background: var(--sb-primary-soft);
+  border-color: var(--sb-primary-soft-hover);
+  color: var(--sb-primary-dark);
 }
 
 .sb-btn-secondary {
@@ -188,6 +204,14 @@
   font-weight: 600;
   line-height: 1;
   padding: 3px 6px;
+  border-radius: 999px;
+}
+
+/* ---------- Divider (Dashboard button -> nav groups) ---------- */
+.sb-divider {
+  height: 1px;
+  margin: 4px 16px 12px;
+  background: linear-gradient(90deg, #FA891A, #FFDE59);
   border-radius: 999px;
 }
 
@@ -223,61 +247,134 @@
 .sb-nav-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 9px 10px;
-  border-radius: 9px;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--sb-border);
+  background: var(--sb-surface);
   font-size: 13.5px;
   font-weight: 500;
   color: var(--sb-ink);
   text-decoration: none;
   white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.sb-nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--sb-primary-soft);
+  flex-shrink: 0;
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-.sb-nav-item i {
+.sb-nav-icon i {
   width: 16px;
-  font-size: 14px;
+  font-size: 13px;
   text-align: center;
-  color: var(--sb-muted);
+  color: var(--sb-primary);
   transition: color 0.15s ease;
   flex-shrink: 0;
 }
 
 .sb-nav-item:hover {
   background: var(--sb-primary-soft);
+  border-color: var(--sb-primary-soft-hover);
   color: var(--sb-primary-dark);
 }
-.sb-nav-item:hover i {
-  color: var(--sb-primary);
+.sb-nav-item:hover .sb-nav-icon {
+  background: var(--sb-surface);
 }
 
-.sb-nav-item.is-active {
-  background: var(--sb-primary-soft);
+/* Active item: gradient border (primary teal -> accent orange)
+   Shared by nav items AND the Dashboard quick-action button, so
+   whichever page is selected gets the exact same treatment. */
+.sb-nav-item.is-active,
+.sb-btn.is-active {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--sb-primary-soft), var(--sb-primary-soft)) padding-box,
+    linear-gradient(90deg, var(--sb-primary), var(--sb-accent)) border-box;
   color: var(--sb-primary-dark);
   font-weight: 600;
 }
-.sb-nav-item.is-active i {
-  color: var(--sb-primary);
+.sb-nav-item.is-active .sb-nav-icon {
+  background: var(--sb-ink);
+}
+.sb-nav-item.is-active .sb-nav-icon i {
+  color: #fff;
+}
+.sb-btn.is-active i {
+  color: var(--sb-primary-dark);
 }
 
-.sb-nav-item-danger:hover {
+.sb-nav-item-danger {
+  border-color: var(--sb-danger-soft);
+}
+.sb-nav-item-danger .sb-nav-icon {
   background: var(--sb-danger-soft);
+}
+.sb-nav-item-danger .sb-nav-icon i {
   color: var(--sb-danger);
 }
-.sb-nav-item-danger:hover i {
+.sb-nav-item-danger:hover {
+  background: var(--sb-danger-soft);
+  border-color: var(--sb-danger);
+  color: var(--sb-danger);
+}
+.sb-nav-item-danger:hover .sb-nav-icon {
+  background: var(--sb-surface);
+}
+.sb-nav-item-danger:hover .sb-nav-icon i {
   color: var(--sb-danger);
 }
 
 /* ---------- Footer group (Others) ---------- */
 .sb-nav-group.sb-nav-group-footer {
-  margin-top: auto;
+  margin-top: 16px;
   border-top: none;
-  padding: 10px 8px;
-  background: var(--sb-primary-soft);
-  border-radius: 12px;
+  padding: 14px 12px;
+  background: var(--sb-footer-bg);
+  border-radius: 16px;
 }
 .sb-nav-group-footer .sb-nav-title {
   margin-left: 6px;
+  color: rgba(255, 255, 255, 0.85);
+}
+.sb-nav-group-footer .sb-nav-item {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #fff;
+}
+.sb-nav-group-footer .sb-nav-item .sb-nav-icon {
+  background: rgba(255, 255, 255, 0.2);
+}
+.sb-nav-group-footer .sb-nav-item .sb-nav-icon i {
+  color: #fff;
+}
+.sb-nav-group-footer .sb-nav-item:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+.sb-nav-group-footer .sb-nav-item-danger {
+  background: var(--sb-surface);
+  border-color: var(--sb-danger-soft);
+  color: var(--sb-danger);
+}
+.sb-nav-group-footer .sb-nav-item-danger .sb-nav-icon {
+  background: var(--sb-danger-soft);
+}
+.sb-nav-group-footer .sb-nav-item-danger .sb-nav-icon i {
+  color: var(--sb-danger);
+}
+.sb-nav-group-footer .sb-nav-item-danger:hover {
+  background: var(--sb-danger-soft);
+  border-color: var(--sb-danger);
 }
 
 /* ---------- Responsive ---------- */
@@ -285,6 +382,8 @@
   .edash-sidebar {
     position: fixed;
     inset: 0 auto 0 0;
+    height: 100vh;
+    overflow: hidden;
     z-index: 40;
     transform: translateX(-100%);
     box-shadow: 0 0 0 rgba(0,0,0,0);
