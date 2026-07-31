@@ -1,15 +1,13 @@
 /* ============================================================
    Master Header Component — 360eDash
-   Self-contained: defines its own tokens so it can be dropped
-   into any page on its own. Values intentionally mirror
-   sidebar.css so the two feel like one system.
 ============================================================= */
 
 .edash-header {
   --hd-primary: #0f6a71;
   --hd-primary-dark: #0b4f54;
+  --hd-primary-light: #6DC3BB;
   --hd-primary-soft: #e4f1f1;
-  --hd-bg: #6DC3BB;
+  --hd-bg: #0f6a71;
   --hd-danger: #d64545;
   --hd-ink: #16262a;
   --hd-muted: #7c8b8d;
@@ -25,6 +23,9 @@
   background: var(--hd-bg);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  z-index: 30;
 }
 
 .edash-header * {
@@ -79,9 +80,9 @@
   border: 1.5px solid var(--hd-surface);
   font-size: 9.5px;
   font-weight: 600;
-  line-height: 16px;
-  text-align: center;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ---------- Profile dropdown ---------- */
@@ -111,11 +112,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--hd-primary);
+  background: linear-gradient(135deg, var(--hd-primary-dark), var(--hd-primary-light));
+  color: #fff;
   flex-shrink: 0;
 }
 .hd-avatar i {
-  font-size: 30px;
+  font-size: 15px;
+  color: #fff;
 }
 
 .hd-profile-info {
