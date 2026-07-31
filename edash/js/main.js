@@ -39,6 +39,15 @@ async function loadPage(page) {
         document.getElementById("page-root").innerHTML =
             await response.text();
 
+        // Jalankan initializer khusus halaman jika tersedia
+        if (page.includes("project-overview") && typeof initProjectOverview === "function") {
+            initProjectOverview();
+        }
+
+        if (page.includes("project-selector") && typeof initProjectSelector === "function") {
+            initProjectSelector();
+        }
+
     } catch (err) {
 
         console.error(err);
@@ -67,6 +76,47 @@ function sidebarToggle() {
 }
 
 // =============================
+// Sidebar Active State + Page Navigation
+// =============================
+
+function sidebarActiveState() {
+
+    const dashboardBtn = document.getElementById("sbDashboardBtn");
+    const navItems = document.querySelectorAll(".sb-nav-item");
+
+    if (!dashboardBtn) return;
+
+    dashboardBtn.addEventListener("click", () => {
+
+        dashboardBtn.classList.add("is-active");
+        navItems.forEach((el) => el.classList.remove("is-active"));
+
+        loadPage("pages/project-overview.html");
+
+    });
+
+    navItems.forEach((item) => {
+
+        item.addEventListener("click", (e) => {
+
+            dashboardBtn.classList.remove("is-active");
+            navItems.forEach((el) => el.classList.remove("is-active"));
+            item.classList.add("is-active");
+
+            const page = item.getAttribute("data-page");
+
+            if (page) {
+                e.preventDefault();
+                loadPage(page);
+            }
+
+        });
+
+    });
+
+}
+
+// =============================
 // Initialize Dashboard
 // =============================
 
@@ -91,10 +141,7 @@ async function initializeDashboard() {
     ]);
 
     sidebarToggle();
-
-    if (typeof initProjectOverview === "function") {
-        initProjectOverview();
-    }
+    sidebarActiveState();
 
 }
 
