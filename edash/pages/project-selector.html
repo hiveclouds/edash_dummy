@@ -1,0 +1,132 @@
+<!-- ============================================================
+     Page: Project Selector — 360eDash
+     Fragment ini yang dimuat ke #page-root untuk route
+     "Project Selector". Sesuaikan lokasi file bila struktur
+     project berbeda (mis. pages/project-selector.html).
+============================================================= -->
+<div class="ps-page">
+  <div class="ps-map-wrap">
+
+    <!-- Fallback visual di belakang peta Leaflet -->
+    <div class="demo-map-card"></div>
+    <div id="psMap" class="ps-map"></div>
+
+    <!-- Tombol lokasi saya -->
+    <button type="button" class="ps-locate-btn" id="psLocateBtn" title="Ke lokasi saya">
+      <i class="fa-solid fa-location-crosshairs"></i>
+    </button>
+
+    <!-- Panel mengambang "Project Locations" -->
+    <div class="ps-panel" id="psPanel">
+
+      <button type="button" class="ps-panel-toggle" id="psPanelToggle">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>Project Locations</span>
+        <i class="fa-solid fa-chevron-down ps-panel-toggle-chevron"></i>
+      </button>
+
+      <div class="ps-panel-body" id="psPanelBody">
+
+        <!-- Project Summary -->
+        <div class="ps-summary">
+          <div class="ps-summary-item">
+            <span class="ps-summary-icon ps-summary-icon-all"><i class="fa-solid fa-layer-group"></i></span>
+            <span class="ps-summary-value" id="psSummaryAll">0</span>
+            <span class="ps-summary-label">All Projects</span>
+          </div>
+          <div class="ps-summary-item">
+            <span class="ps-summary-icon ps-summary-icon-online"><i class="fa-solid fa-circle-check"></i></span>
+            <span class="ps-summary-value" id="psSummaryOnline">0</span>
+            <span class="ps-summary-label">Online</span>
+          </div>
+          <div class="ps-summary-item">
+            <span class="ps-summary-icon ps-summary-icon-offline"><i class="fa-solid fa-circle-xmark"></i></span>
+            <span class="ps-summary-value" id="psSummaryOffline">0</span>
+            <span class="ps-summary-label">Offline</span>
+          </div>
+          <div class="ps-summary-item">
+            <span class="ps-summary-icon ps-summary-icon-alerts"><i class="fa-solid fa-triangle-exclamation"></i></span>
+            <span class="ps-summary-value" id="psSummaryAlerts">0</span>
+            <span class="ps-summary-label">Active Alerts</span>
+          </div>
+        </div>
+
+        <!-- Category -->
+        <div class="ps-section">
+          <div class="ps-section-title">Category</div>
+          <div class="ps-category-grid" id="psLegend"></div>
+        </div>
+
+        <!-- Generation stats -->
+        <div class="ps-section">
+          <div class="ps-section-title">Today's Generation</div>
+          <div class="ps-gen-stats">
+            <div class="ps-gen-item">
+              <span class="ps-gen-value" id="psGenMWh">0</span>
+              <span class="ps-gen-unit">MWh</span>
+              <span class="ps-gen-label">Generated</span>
+            </div>
+            <div class="ps-gen-item">
+              <span class="ps-gen-value" id="psGenMWp">0</span>
+              <span class="ps-gen-unit">MWp</span>
+              <span class="ps-gen-label">Installed</span>
+            </div>
+            <div class="ps-gen-item">
+              <span class="ps-gen-value" id="psGenCO2">0</span>
+              <span class="ps-gen-unit">Ton</span>
+              <span class="ps-gen-label">CO2 Avoided</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Saved Projects -->
+        <div class="ps-section">
+          <div class="ps-section-title">Saved Projects</div>
+          <div class="ps-table">
+            <div class="ps-table-head">
+              <span class="ps-table-head-name">Name</span>
+              <span class="ps-table-head-location">Location</span>
+              <span class="ps-table-head-actions">Action</span>
+            </div>
+            <div class="ps-table-rows" id="psSavedRows"></div>
+          </div>
+        </div>
+
+        <!-- All Projects -->
+        <div class="ps-section ps-section-grow">
+          <div class="ps-section-title">All Projects</div>
+          <div class="ps-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="psSearchInput" placeholder="Search project...">
+          </div>
+          <div class="ps-table ps-table-scroll">
+            <div class="ps-table-head">
+              <span class="ps-table-head-name">Name</span>
+              <span class="ps-table-head-location">Location</span>
+              <span class="ps-table-head-actions">Action</span>
+            </div>
+            <div class="ps-table-rows" id="psAllRows"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Today chart (mengambang di kiri-bawah, di luar dropdown) -->
+    <div class="ps-today-float" id="psTodayFloat">
+      <div class="ps-today-head">
+        <div>
+          <div class="ps-today-title">Today</div>
+          <div class="ps-today-value" id="psTodayValue">0<span>MWh</span></div>
+          <div class="ps-today-target" id="psTodayTarget"></div>
+        </div>
+        <div class="ps-today-legend">
+          <span class="ps-today-legend-item"><span class="ps-today-legend-swatch is-projected"></span>Projected</span>
+          <span class="ps-today-legend-item"><span class="ps-today-legend-swatch is-realized"></span>Realized</span>
+        </div>
+      </div>
+      <div class="ps-today-chart-wrap" id="psTodayChartWrap"></div>
+    </div>
+
+  </div>
+</div>
