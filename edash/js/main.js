@@ -39,6 +39,8 @@ async function loadPage(page) {
         document.getElementById("page-root").innerHTML =
             await response.text();
 
+        applyLanguage(getSavedLanguage());
+
         // Jalankan initializer khusus halaman jika tersedia
         if (page.includes("project-overview") && typeof initProjectOverview === "function") {
             initProjectOverview();
@@ -53,6 +55,95 @@ async function loadPage(page) {
         console.error(err);
 
     }
+
+}
+
+// =============================
+// Language Switch (EN / ID)
+// =============================
+
+const translations = {
+    en: {
+        "sidebar.greeting.label": "Hello,",
+        "sidebar.dashboard": "Dashboard",
+        "sidebar.nav.monitoring": "Monitoring",
+        "sidebar.nav.projectSelector": "Project Selector",
+        "sidebar.nav.projectMonitoring": "Project Monitoring",
+        "sidebar.nav.alerts": "Alerts",
+        "sidebar.nav.taskMaintenance": "Task Maintenance",
+        "sidebar.nav.tools": "Tools",
+        "sidebar.nav.adminCalc": "Admin Calculator",
+        "sidebar.nav.addProject": "Add New Project",
+        "sidebar.nav.administration": "Administration",
+        "sidebar.nav.adminView": "Admin View",
+        "sidebar.nav.ActivityLog": "Activity Log",
+        "sidebar.nav.others": "Others",
+        "sidebar.nav.setting": "Setting",
+        "sidebar.nav.logout": "Logout"
+    },
+    id: {
+        "sidebar.greeting.label": "Halo,",
+        "sidebar.dashboard": "Dashboard",
+        "sidebar.nav.monitoring": "Monitoring",
+        "sidebar.nav.projectSelector": "Pemilih Proyek",
+        "sidebar.nav.projectMonitoring": "Pemantauan Proyek",
+        "sidebar.nav.alerts": "Peringatan",
+        "sidebar.nav.taskMaintenance": "Pemeliharaan Tugas",
+        "sidebar.nav.tools": "Alat",
+        "sidebar.nav.adminCalc": "Kalkulator Admin",
+        "sidebar.nav.addProject": "Tambah Proyek Baru",
+        "sidebar.nav.administration": "Administrasi",
+        "sidebar.nav.adminView": "Tampilan Admin",
+        "sidebar.nav.marketing": "Pemasaran",
+        "sidebar.nav.others": "Lainnya",
+        "sidebar.nav.setting": "Pengaturan",
+        "sidebar.nav.logout": "Keluar"
+    }
+};
+
+function getSavedLanguage() {
+
+    return localStorage.getItem("edash-lang") || "id";
+
+}
+
+function applyLanguage(lang) {
+
+    const dict = translations[lang] || translations.id;
+
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+
+        const key = el.getAttribute("data-i18n");
+
+        if (dict[key]) {
+            el.textContent = dict[key];
+        }
+
+    });
+
+    const currentLabel = document.getElementById("hdLangCurrent");
+
+    if (currentLabel) {
+        currentLabel.textContent = lang.toUpperCase();
+    }
+
+    localStorage.setItem("edash-lang", lang);
+
+}
+
+function languageSwitcher() {
+
+    const toggle = document.getElementById("hdLangToggle");
+
+    if (!toggle) return;
+
+    toggle.onclick = () => {
+
+        const nextLang = getSavedLanguage() === "id" ? "en" : "id";
+
+        applyLanguage(nextLang);
+
+    };
 
 }
 
@@ -142,6 +233,8 @@ async function initializeDashboard() {
 
     sidebarToggle();
     sidebarActiveState();
+    languageSwitcher();
+    applyLanguage(getSavedLanguage());
 
 }
 
