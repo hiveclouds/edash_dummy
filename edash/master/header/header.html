@@ -6,8 +6,14 @@
   <!-- Left: reserved for page title / breadcrumb, set per page -->
   <div class="hd-left"></div>
 
-  <!-- Right: notifications + profile -->
+  <!-- Right: language switch + notifications + profile -->
   <div class="hd-right">
+
+    <button class="hd-lang" id="hdLangToggle" type="button" aria-label="Switch language">
+      <i class="fa-solid fa-globe"></i>
+      <span class="hd-lang-current" id="hdLangCurrent">ID</span>
+    </button>
+    <div id="google_translate_element" class="hd-lang-widget"></div>
 
     <button class="hd-notif" id="hdNotif" type="button" aria-label="Notifications">
       <i class="fa-regular fa-bell"></i>

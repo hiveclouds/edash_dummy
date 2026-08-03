@@ -45,6 +45,59 @@
   transition: color 0.15s ease;
 }
 
+/* ---------- Language switch ---------- */
+.hd-lang {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--hd-surface);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 3px rgba(11, 79, 84, 0.15);
+  color: var(--hd-ink);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.hd-lang i {
+  font-size: 13px;
+  color: var(--hd-primary);
+}
+.hd-lang:hover {
+  background: var(--hd-primary-soft);
+  border-color: var(--hd-primary-soft);
+  color: var(--hd-primary-dark);
+}
+.hd-lang-current {
+  letter-spacing: 0.02em;
+}
+
+/* Google Translate widget: sembunyikan tampilan bawaannya,
+   kita hanya pakai <select> internalnya lewat tombol .hd-lang */
+.hd-lang-widget {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.goog-te-banner-frame.skiptranslate,
+#goog-gt-tt,
+.goog-te-balloon-frame {
+  display: none !important;
+}
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+body {
+  top: 0 !important;
+}
+
 /* ---------- Notification bell ---------- */
 .hd-notif {
   position: relative;
@@ -144,6 +197,12 @@
     padding: 12px 16px;
   }
   .hd-profile-info {
+    display: none;
+  }
+  .hd-lang {
+    padding: 0 10px;
+  }
+  .hd-lang-current {
     display: none;
   }
 }
