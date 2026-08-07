@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>360eDash — Dashboard</title>
 
+<!-- =========================================================
+     Auth Guard — HARUS paling atas & TIDAK pakai "defer".
+     Dijalankan sebelum apa pun lain di-load, supaya kalau user
+     belum login, dia langsung dilempar ke halaman login tanpa
+     sempat melihat isi dashboard (menghindari "flash" konten). -->
+<script>
+  (function () {
+    var isLoggedIn = sessionStorage.getItem("edash-user");
+    if (!isLoggedIn) {
+      window.location.replace("pages/solar-calculator.html");
+    }
+  })();
+</script>
+
 <!-- Google Fonts: Poppins -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,12 +30,33 @@
 <!-- Leaflet (peta open-source, dipakai untuk Project Selector) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
 
+<!-- Global design tokens + shared atoms (button, pill, skeleton, toast) -->
+<link rel="stylesheet" href="css/global.css">
+
 <!-- Master components (modular, reusable) -->
 <link rel="stylesheet" href="master/sidebar/sidebar.css">
 <link rel="stylesheet" href="master/header/header.css">
+<link rel="stylesheet" href="master/logout-modal/logout-modal.css">
 
 <!-- Page-specific styles -->
+<link rel="stylesheet" href="css/login.css">
+<link rel="stylesheet" href="css/project-overview.css">
+<link rel="stylesheet" href="css/project-detail.css">
+<link rel="stylesheet" href="css/dashboard.css">
 <link rel="stylesheet" href="css/project-selector.css">
+<link rel="stylesheet" href="css/system-information.css">
+<link rel="stylesheet" href="css/battery-station.css">
+<link rel="stylesheet" href="css/catalog.css">
+<link rel="stylesheet" href="css/project-monitoring.css">
+<link rel="stylesheet" href="css/task-maintenance.css">
+<link rel="stylesheet" href="css/task-management.css">
+<link rel="stylesheet" href="css/setting.css">
+<link rel="stylesheet" href="css/alert.css">
+<link rel="stylesheet" href="css/activity-log.css">
+<link rel="stylesheet" href="css/add-project.css">
+<link rel="stylesheet" href="css/admin-calculator.css">
+<link rel="stylesheet" href="css/admin-view.css">
+<link rel="stylesheet" href="css/dark-mode-v8.css">
 
 <style>
   :root {
@@ -35,6 +70,23 @@
     font-family: 'Poppins', sans-serif;
     background: var(--page-bg);
     color: #25343F;
+  }
+
+  html[data-theme="dark"] body {
+    background: #101b1f;
+    color: #e7eff0;
+  }
+  html[data-theme="dark"] .edash-content {
+    background: #101b1f;
+  }
+  html[data-theme="dark"] * {
+    scrollbar-color: #315158 transparent;
+  }
+  html[data-theme="dark"] *::-webkit-scrollbar-thumb {
+    background-color: #315158;
+  }
+  html[data-theme="dark"] *::-webkit-scrollbar-thumb:hover {
+    background-color: #21a7ae;
   }
 
   /* ---------- App shell ----------
@@ -57,6 +109,7 @@
   }
 
   .edash-content {
+    position: relative;
     flex: 1;
     overflow-y: auto;
     padding: 24px;
@@ -110,9 +163,31 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" defer></script>
-<script src="js/project-selector.js" defer></script>
-<script src="js/main.js" defer></script>
+<!-- Logout confirmation modal mount point (overlay, sits outside
+     .edash-layout so it's never clipped by any page's overflow) -->
+<div id="logout-modal-root"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js" defer></script>
+<script src="js/project-overview.js" defer></script>
+<script src="js/project-detail.js" defer></script>
+<script src="js/dashboard.js" defer></script>
+<script src="js/project-selector.js" defer></script>
+<script src="js/login.js" defer></script>
+<script src="js/catalog.js" defer></script>
+<script src="js/system-information.js" defer></script>
+<script src="js/battery-station.js" defer></script>
+<script src="js/project-monitoring.js" defer></script>
+<script src="js/task-maintenance.js" defer></script>
+<script src="js/task-management.js" defer></script>
+<script src="js/setting.js" defer></script>
+<script src="js/add-project.js" defer></script>
+<script src="js/admin-calculator.js" defer></script>
+<script src="js/admin-view.js" defer></script>
+<script src="js/activity-log.js" defer></script>
+<script src="master/logout-modal/logout-modal.js" defer></script>
+<script src="master/header/header.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/alert.js" defer></script>
 </body>
 </html>
