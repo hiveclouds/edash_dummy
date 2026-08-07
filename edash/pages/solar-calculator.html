@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>360eDash — Solar Calculator</title>
+
+<!-- Google Fonts: Poppins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome 6 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- Design tokens + shared atoms (button, pill) -->
+<link rel="stylesheet" href="../css/global.css">
+
+<!-- Solar Calculator page style -->
+<link rel="stylesheet" href="../css/solar-calculator.css">
+</head>
+<body>
+
+<div class="calc-page">
+
+  <!-- ============ Top bar ============ -->
+  <header class="calc-topbar">
+    <div class="calc-topbar__inner">
+      <img class="calc-topbar__logo" src="../assets/logo2.png" alt="360energy">
+    </div>
+  </header>
+
+  <!-- Everything below the header scrolls in its own region, so the
+       header itself never scrolls or gets swept by the page scrollbar -->
+  <div class="calc-scroll-area" id="calcScrollArea">
+
+  <!-- ============ Page title ============ -->
+  <section class="calc-hero-lite">
+    <div class="calc-hero-lite__inner">
+      <div class="calc-hero-lite__text">
+        <h1 class="calc-hero-lite__title">Smart Solar Planner</h1>
+        <p class="calc-hero-lite__desc">Calculate your facility's rooftop solar potential in seconds.</p>
+      </div>
+
+      <div class="calc-hero-lite__actions">
+        <button type="button" class="calc-lang-btn" id="calcLangToggle" aria-label="Switch language">
+          <i class="fa-solid fa-globe"></i>
+          <span id="calcLangCurrent">EN</span>
+        </button>
+        <a href="login.html" class="calc-signin-btn">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span>Sign in</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Calculator ============ -->
+  <main class="calc-shell" id="calculator">
+
+    <!-- Left: input form -->
+    <section class="calc-form-panel">
+      <div class="calc-card calc-card--form">
+        <div class="calc-card__head">
+          <span class="calc-card__icon"><i class="fa-solid fa-solar-panel"></i></span>
+          <div>
+            <h2>Enter Your Project Details</h2>
+            <p>Initial estimate — for a formal quote, our team will conduct a further on-site survey.</p>
+          </div>
+        </div>
+
+        <form id="solarCalcForm" class="calc-form" novalidate>
+
+          <div class="form-group">
+            <label for="provinceSelect">Facility Province</label>
+            <div class="input-control input-control--select">
+              <i class="fa-solid fa-map-location-dot input-control__icon"></i>
+              <select id="provinceSelect" required></select>
+              <i class="fa-solid fa-chevron-down input-control__caret"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cityInput">City / Regency</label>
+            <div class="input-control input-control--select">
+              <i class="fa-solid fa-location-dot input-control__icon"></i>
+              <select id="cityInput" required></select>
+              <i class="fa-solid fa-chevron-down input-control__caret"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="facilitySelect">Facility Type</label>
+            <div class="input-control input-control--select">
+              <i class="fa-solid fa-building input-control__icon"></i>
+              <select id="facilitySelect" required>
+                <option value="restaurant">Restaurant</option>
+                <option value="office" selected>Office</option>
+                <option value="mall">Mall / Retail</option>
+                <option value="hospital">Hospital</option>
+                <option value="industrial_247">24/7 Factory</option>
+                <option value="industrial_1shift">1-Shift Factory</option>
+                <option value="residential">Residential Complex</option>
+                <option value="streetlights">Street Lighting</option>
+                <option value="other">Other</option>
+              </select>
+              <i class="fa-solid fa-chevron-down input-control__caret"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="kvaInput">Installed PLN Power Capacity (kVA)</label>
+            <div class="input-control">
+              <i class="fa-solid fa-bolt input-control__icon"></i>
+              <input type="number" id="kvaInput" min="1" step="1" value="66" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="tariffSelect">PLN Tariff Category</label>
+            <div class="input-control input-control--select">
+              <i class="fa-solid fa-file-invoice-dollar input-control__icon"></i>
+              <select id="tariffSelect" required>
+                <option value="1444.70">Residential 1,300–2,200 VA</option>
+                <option value="1699.53">Residential 3,500 VA+</option>
+                <option value="1444.70" selected>Business B-2/TR 6,600 VA–200 kVA</option>
+                <option value="1699.53">Government P-1/TR 6,600 VA–200 kVA</option>
+                <option value="custom">Custom</option>
+              </select>
+              <i class="fa-solid fa-chevron-down input-control__caret"></i>
+            </div>
+          </div>
+
+          <div class="form-group" id="customTariffGroup" hidden>
+            <label for="customTariffInput">Custom PLN Tariff (Rp/kWh)</label>
+            <div class="input-control">
+              <i class="fa-solid fa-pen input-control__icon"></i>
+              <input type="number" id="customTariffInput" min="0" step="0.01" value="1444.70">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="billInput">Total Monthly Electricity Bill (Rp)</label>
+            <div class="input-control">
+              <i class="fa-solid fa-receipt input-control__icon"></i>
+              <input type="number" id="billInput" min="0" step="10000" value="16800000" required>
+            </div>
+          </div>
+
+          <span class="form-error form-error--general" id="calcFormError"></span>
+
+          <button type="submit" class="btn-calc" id="calcSubmitBtn">
+            <span>Calculate Estimate</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Right: results -->
+    <section class="calc-results-panel" id="resultsPanel">
+      <div class="calc-card calc-card--results">
+
+        <div class="calc-empty-state" id="emptyState">
+          <i class="fa-regular fa-sun"></i>
+          <h3>Your estimate will appear here</h3>
+          <p>Fill out the form and click "Calculate Estimate" to see your facility's solar system potential.</p>
+        </div>
+
+        <div class="calc-output" id="calcOutput" hidden>
+
+          <p class="calc-summary-banner" id="summaryBanner"></p>
+
+          <div class="calc-highlight-grid">
+            <div class="calc-stat-card calc-stat-card--accent">
+              <span class="calc-stat-card__label">Solar System Size</span>
+              <span class="calc-stat-card__value" id="statSystemSize">-- kWp</span>
+              <span class="calc-stat-card__sub" id="statPanelCountShort"></span>
+            </div>
+            <div class="calc-stat-card">
+              <span class="calc-stat-card__label">Solar Energy Coverage</span>
+              <span class="calc-stat-card__value" id="statCoverage">-- %</span>
+              <span class="calc-stat-card__sub">of total daily electricity consumption</span>
+            </div>
+            <div class="calc-stat-card calc-stat-card--success">
+              <span class="calc-stat-card__label">Est. Monthly Savings</span>
+              <span class="calc-stat-card__value" id="statMonthlySavings">Rp --</span>
+              <span class="calc-stat-card__sub" id="statBillCompare"></span>
+            </div>
+          </div>
+
+          <p class="calc-fit-note" id="fitNote" hidden><i class="fa-solid fa-triangle-exclamation"></i> <span></span></p>
+
+          <div class="calc-tariff-compare">
+            <div class="calc-tariff-box calc-tariff-box--old">
+              <span class="calc-tariff-box__label">PLN Tariff</span>
+              <span class="calc-tariff-box__value" id="statPlnTariff">Rp --/kWh</span>
+            </div>
+            <i class="fa-solid fa-arrow-right calc-tariff-arrow"></i>
+            <div class="calc-tariff-box calc-tariff-box--new">
+              <span class="calc-tariff-box__label">Solar Leasing Tariff (BOT)</span>
+              <span class="calc-tariff-box__value" id="statSolarTariff">Rp --/kWh</span>
+            </div>
+          </div>
+
+          <!-- Sales pitch: conventional (PLN-only) vs. solar, 20-year outlook -->
+          <div class="calc-pitch-card">
+            <div class="calc-pitch-card__head">
+              <i class="fa-solid fa-scale-balanced"></i>
+              <h3>Staying on PLN vs. Going Solar — 20-Year Outlook</h3>
+            </div>
+            <div class="calc-bill-compare calc-pitch-compare">
+              <div class="calc-bill-box calc-bill-box--old">
+                <span class="calc-bill-box__label">100% Conventional PLN</span>
+                <span class="calc-bill-box__value" id="pitchConventionalCost">Rp --</span>
+              </div>
+              <div class="calc-bill-arrow calc-pitch-arrow">
+                <i class="fa-solid fa-arrow-right"></i>
+                <span id="pitchSavingsAmount">Rp --</span>
+              </div>
+              <div class="calc-bill-box calc-bill-box--new">
+                <span class="calc-bill-box__label">With 360eDash Solar</span>
+                <span class="calc-bill-box__value" id="pitchSolarCost">Rp --</span>
+              </div>
+            </div>
+            <div class="calc-pitch-strip">
+              <span class="calc-pitch-chip calc-pitch-chip--accent">
+                <i class="fa-solid fa-piggy-bank"></i>
+                Cut <b id="pitchSavingsPct">--%</b> off your electricity spend over 20 years
+              </span>
+              <span class="calc-pitch-chip">
+                <i class="fa-solid fa-leaf"></i>
+                Offset <b id="pitchCo2">-- tCO2e</b> — like planting <b id="pitchTrees">--</b> mangrove trees
+              </span>
+            </div>
+          </div>
+
+          <div class="calc-chart-card">
+            <div class="calc-chart-card__head">
+              <h3><i class="fa-solid fa-chart-area"></i> Estimated Daily Production vs. Consumption</h3>
+              <div class="calc-chart-legend">
+                <span class="calc-chart-legend__item"><i class="calc-chart-dot calc-chart-dot--consumption"></i> Consumption</span>
+                <span class="calc-chart-legend__item"><i class="calc-chart-dot calc-chart-dot--solar"></i> Solar Production</span>
+                <span class="calc-chart-legend__item"><i class="calc-chart-dot calc-chart-dot--overlay"></i> Self-Consumed</span>
+              </div>
+            </div>
+            <div class="calc-chart-box" id="productionChart"></div>
+          </div>
+
+          <div class="calc-detail-wrap">
+            <h3 class="calc-detail-heading"><i class="fa-solid fa-chart-line"></i> Full Breakdown &amp; Investment Projection</h3>
+
+            <div class="calc-detail-body" id="detailGrid">
+
+              <!-- Consumption -->
+              <h4 class="calc-detail-subhead">Consumption</h4>
+              <div class="calc-detail-grid calc-detail-grid--4">
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Base Load</span><span class="calc-detail-card__value" id="cBaseLoad">-- kW</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Peak Load Add-on</span><span class="calc-detail-card__value" id="cPeakLoad">-- kW</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Max Consumption</span><span class="calc-detail-card__value" id="cMaxLoad">-- kVA</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Prep / Idle Load</span><span class="calc-detail-card__value" id="cPrepIdleLoad">-- / -- kW</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Daily Cost (Pre-PV)</span><span class="calc-detail-card__value" id="cDailyCostPrePv">Rp --</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Monthly Bill (Pre-PV)</span><span class="calc-detail-card__value" id="cMonthlyBillPrePv">Rp --</span></div>
+              </div>
+
+              <!-- Solar PV System -->
+              <h4 class="calc-detail-subhead">Solar PV System</h4>
+              <div class="calc-detail-grid calc-detail-grid--4">
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Panel Count</span><span class="calc-detail-card__value" id="sIdealPanels">--</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">System Size</span><span class="calc-detail-card__value" id="sSystemSize">-- kWp</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Total Panel Area</span><span class="calc-detail-card__value" id="sTotalArea">-- m²</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Max Output Power</span><span class="calc-detail-card__value" id="sMaxOutput">-- kW</span></div>
+              </div>
+
+              <!-- Energy Mix -->
+              <h4 class="calc-detail-subhead">Energy Mix Performance (Year 1)</h4>
+              <div class="calc-detail-grid calc-detail-grid--4">
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Daily Solar Consumed</span><span class="calc-detail-card__value" id="eSolarConsumed">-- kWh</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Daily Grid Import</span><span class="calc-detail-card__value" id="eGridImport">-- kWh</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Daily Excess Surplus</span><span class="calc-detail-card__value" id="eExcessSurplus">-- kWh</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Total Daily Production</span><span class="calc-detail-card__value" id="eTotalProduction">-- kWh</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Daily Specific Yield</span><span class="calc-detail-card__value" id="eSpecificYield">-- kWh/kWp</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Daily Solar Mix</span><span class="calc-detail-card__value" id="eSolarMix">-- %</span></div>
+              </div>
+
+              <!-- Financing models -->
+              <h4 class="calc-detail-subhead">ZeroCapEx Solar Leasing (BOT)</h4>
+              <div class="calc-bill-compare">
+                <div class="calc-bill-box calc-bill-box--old"><span class="calc-bill-box__label">Old Monthly Bill</span><span class="calc-bill-box__value" id="botOldBill">Rp --</span></div>
+                <div class="calc-bill-arrow"><i class="fa-solid fa-arrow-right"></i><span id="botMonthlySavings">Rp --/mo</span></div>
+                <div class="calc-bill-box calc-bill-box--new"><span class="calc-bill-box__label">New Monthly Bill</span><span class="calc-bill-box__value" id="botNewBill">Rp --</span></div>
+              </div>
+              <div class="calc-detail-grid calc-detail-grid--3">
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Year 1 Annual Savings</span><span class="calc-detail-card__value" id="botY1Savings">Rp --</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Total Project Savings</span><span class="calc-detail-card__value" id="botTotalSavings">Rp --</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Average Annual Savings</span><span class="calc-detail-card__value" id="botAvgSavings">Rp --</span></div>
+              </div>
+
+              <h4 class="calc-detail-subhead">Direct Purchase</h4>
+              <div class="calc-bill-compare">
+                <div class="calc-bill-box calc-bill-box--old"><span class="calc-bill-box__label">Old Monthly Bill</span><span class="calc-bill-box__value" id="dpOldBill">Rp --</span></div>
+                <div class="calc-bill-arrow"><i class="fa-solid fa-arrow-right"></i><span id="dpMonthlySavings">Rp --/mo</span></div>
+                <div class="calc-bill-box calc-bill-box--new"><span class="calc-bill-box__label">New Monthly Bill</span><span class="calc-bill-box__value" id="dpNewBill">Rp --</span></div>
+              </div>
+              <div class="calc-detail-grid calc-detail-grid--3">
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Est. Payback Period</span><span class="calc-detail-card__value" id="statPayback">-- years</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Total 20-Year Savings</span><span class="calc-detail-card__value" id="statLifetimeSavings">Rp --</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Est. System Investment</span><span class="calc-detail-card__value" id="statInvestment">Rp --</span></div>
+              </div>
+
+              <!-- Environmental / CSR -->
+              <h4 class="calc-detail-subhead">Environmental Impact &amp; CSR Equivalency (20yr)</h4>
+              <div class="calc-detail-grid calc-detail-grid--4">
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Total Emissions Reduction</span><span class="calc-detail-card__value" id="envTotalEmissions">-- tCO2e</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Avg. Annual Reduction</span><span class="calc-detail-card__value" id="envAvgEmissions">-- tCO2e</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Mangrove Avoidance</span><span class="calc-detail-card__value" id="envMangroveHa">-- ha</span></div>
+                <div class="calc-detail-card"><span class="calc-detail-card__label">Equivalent Trees</span><span class="calc-detail-card__value" id="envMangroveTrees">-- trees</span></div>
+              </div>
+
+              <!-- Annual bills chart -->
+              <h4 class="calc-detail-subhead">Annual Electricity Bill Comparison</h4>
+              <div class="calc-chart-box calc-chart-box--tall" id="annualBillsChart"></div>
+
+              <!-- Year-by-year table -->
+              <div class="calc-table-head">
+                <h4 class="calc-detail-subhead calc-detail-subhead--flush">Direct Purchase: Year-by-Year Financials</h4>
+                <button type="button" class="calc-table-toggle" id="toggleYearlyTable">Expand Table <i class="fa-solid fa-chevron-down"></i></button>
+              </div>
+              <div class="calc-table-wrap" id="yearlyTableWrap" hidden>
+                <table class="calc-table">
+                  <thead>
+                    <tr><th>Year</th><th>Savings (Rp)</th><th>OpEx (Rp)</th><th>NCF (Rp)</th><th>Accum. NCF (Rp)</th></tr>
+                  </thead>
+                  <tbody id="yearlyTableBody"></tbody>
+                </table>
+              </div>
+
+            </div>
+
+            <div class="calc-lock-overlay" id="lockOverlay">
+              <div class="calc-lock-box">
+                <span class="calc-lock-box__icon"><i class="fa-solid fa-lock"></i></span>
+                <h4>Unlock the full breakdown &amp; report</h4>
+                <p>Enter your email to view investment details, payback period, and download the estimate report as a PDF.</p>
+
+                <form id="emailGateForm" class="calc-lock-form" novalidate>
+                  <div class="input-control">
+                    <i class="fa-regular fa-envelope input-control__icon"></i>
+                    <input type="email" id="emailGateInput" placeholder="name@company.com" required>
+                  </div>
+                  <span class="form-error" id="emailGateError"></span>
+                  <button type="submit" class="btn-login" id="emailGateSubmit">
+                    <span class="btn-login__label">Unlock Details &amp; Report</span>
+                  </button>
+                </form>
+
+                <p class="calc-lock-box__footnote">Your email is only used to send this estimate &amp; solar quotation information.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-unlocked-actions" id="unlockedActions" hidden>
+            <button type="button" class="btn btn-secondary" id="downloadPdfBtn">
+              <i class="fa-solid fa-file-arrow-down"></i> Download Report (PDF)
+            </button>
+            <a href="login.html" class="btn-calc calc-cta-login">
+              <span>Continue to Official Quote</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <p class="calc-disclaimer"><i class="fa-solid fa-circle-info"></i> This estimate is indicative, based on standard assumptions (regional solar irradiance potential, typical load profiles, and prevailing market prices). Final figures will be adjusted after a technical survey by the 360energy team.</p>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="calc-footer">
+    <p>© 2026 360energy (PT. Pionir Energi Hijau) — 360eDash Smart Solar Planner</p>
+  </footer>
+
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="../js/solar-calculator.js"></script>
+</body>
+</html>
